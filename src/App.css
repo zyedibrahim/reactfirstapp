@@ -1,0 +1,21 @@
+.back{
+/* background-color: red; */
+align-items: center;
+text-align: center;
+padding: 10px;
+
+}
+.imgs{
+height: 250px;
+width: 250px;
+border-radius:  50%;
+object-fit: cover;
+
+}
+.name{
+    /* text-align: center; */
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-style:italic;
+    font-weight: bold;
+}
