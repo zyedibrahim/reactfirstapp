@@ -20,7 +20,7 @@ function App() {
       img: "https://www.shutterstock.com/image-photo/portrait-suspicious-girl-stylish-hairdo-260nw-2419831495.jpg",
     },
   ];
-  //
+  // app change jjdafadf
   return (
     <div>
       {bd.map((ele, id) => (
@@ -38,7 +38,7 @@ function Msg({ name, img, id }) {
         {id}
         <img className="imgs" src={img} alt={name} />
         <div className="name">{name}</div>
-        <button onClick={() => setCount(count + 1)}> like {count} </button>
+        <button onClick={() => setCount(count + 1)}> like wow {count} </button>
       </div>
     </div>
   );
