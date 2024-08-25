@@ -20,7 +20,7 @@ function App() {
       img: "https://www.shutterstock.com/image-photo/portrait-suspicious-girl-stylish-hairdo-260nw-2419831495.jpg",
     },
   ];
-
+  //
   return (
     <div>
       {bd.map((ele, id) => (
