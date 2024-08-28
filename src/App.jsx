@@ -1,9 +1,12 @@
 import { useState } from "react";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
 
 import "./App.css";
+import { MovieContainer } from "./MovieContainer";
 
 function App() {
-  let moveilist = [
+  let [moveilist, setmovielist] = useState([
     {
       name: "Vikram",
       poster:
@@ -93,42 +96,68 @@ function App() {
         "When Earth becomes uninhabitable in the future, a farmer and ex-NASA\\n pilot, Joseph Cooper, is tasked to pilot a spacecraft, along with a team\\n of researchers, to find a new planet for humans.",
       rating: 8.8,
     },
-  ];
+  ]);
 
-  return (
-    <div className="mlistcon">
-      {moveilist.map((moviedata, id) => (
-        <MovieContainer key={id} moviedata={moviedata} />
-      ))}
-    </div>
-  );
-}
+  let [name, setname] = useState();
+  let [poster, setposter] = useState();
+  let [rating, setrating] = useState();
+  let [summary, setsummary] = useState();
 
-function MovieContainer({ id, moviedata }) {
-  var [count, setcount] = useState(0);
-  let style = {
-    color: moviedata.rating > 7 ? "green" : "red",
-  };
-  let [show, setshow] = useState(true);
-
-  let showstyle = {
-    display: show ? "block" : "none",
+  let emoviedata = {
+    name: name,
+    poster: poster,
+    rating: rating,
+    summary: summary,
   };
 
   return (
-    <div key={id} className="mcon">
-      <img className="poster" src={moviedata.poster} alt={moviedata.name} />
-      <div className="mnr">
-        <div>{moviedata.name}</div>
-        <div style={style}>{moviedata.rating}</div>
+    <div>
+      <div className="inputcon">
+        <TextField
+          onChange={(ele) => setname(ele.target.value)}
+          placeholder="name"
+          className="infill"
+          type="text"
+          label="Name"
+          variant="outlined"
+        />
+        <TextField
+          onChange={(ele) => setposter(ele.target.value)}
+          placeholder="Poster"
+          className="infill"
+          type="text"
+          label="Poster"
+          variant="outlined"
+        />
+        <TextField
+          onChange={(ele) => setrating(ele.target.value)}
+          placeholder="Rating"
+          className="infill"
+          type="text"
+          label="Rating"
+          variant="outlined"
+        />
+        <TextField
+          onChange={(ele) => setsummary(ele.target.value)}
+          placeholder="Summary"
+          className="infill"
+          type="text"
+          label="summary"
+          variant="outlined"
+        />
+
+        <Button
+          onClick={() => setmovielist([...moveilist, emoviedata])}
+          variant="contained"
+        >
+          ADD
+        </Button>
       </div>
-      <button onClick={() => setshow(!show)}>toggle</button>
-      <div style={showstyle} className="summary">
-        {moviedata.summary}
-      </div>
-      <div className="lbutton">
-        <button onClick={() => setcount(count + 1)}>{count}like</button>
-        <button>dislike</button>
+
+      <div className="mlistcon">
+        {moveilist.map((moviedata, id) => (
+          <MovieContainer key={id} moviedata={moviedata} />
+        ))}
       </div>
     </div>
   );
