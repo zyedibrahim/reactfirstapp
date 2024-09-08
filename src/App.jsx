@@ -21,6 +21,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Paper from "@mui/material/Paper";
 import BrightnessHighIcon from "@mui/icons-material/BrightnessHigh";
 import BrightnessLowIcon from "@mui/icons-material/BrightnessLow";
+import { AddMovie } from "./AddMovie";
 function App() {
   let [dark, Setdark] = useState("light");
   const darkTheme = createTheme({
@@ -145,6 +146,7 @@ function App() {
     <ThemeProvider theme={darkTheme}>
       <Paper elevation={2}>
         <div>
+          {/* navigaton barf */}
           <AppBar>
             <Toolbar>
               <Button sx={{ color: "white" }} onClick={() => navigate("/home")}>
@@ -157,6 +159,14 @@ function App() {
                 Movies
               </Button>
               <Button
+                sx={{ color: "white" }}
+                onClick={() => navigate("/addmovie")}
+              >
+                AddMovie
+              </Button>
+
+              {/* dark mode button */}
+              <Button
                 startIcon={
                   dark === "dark" ? (
                     <BrightnessHighIcon />
@@ -164,22 +174,23 @@ function App() {
                     <BrightnessLowIcon />
                   )
                 }
-                sx={{ color: "white" }}
+                sx={{ color: "white", marginLeft: "auto" }}
                 onClick={() => Setdark(dark === "light" ? "dark" : "light")}
                 // onClick={() => console.log("daek")}
               >
                 {dark === "light" ? "dark" : "light"}
               </Button>
+              {/* dark mode button */}
             </Toolbar>
           </AppBar>
+          {/* navigaton barf */}
 
           <Routes>
             <Route path="/" element={<Home />} />
 
             <Route path="/home" element={<Home />} />
             <Route path="*" element={<NotfoundPage />} />
-            <Route path="/SamplePageOne" element={<SamplePageOne />} />
-            <Route path="/SamplePagetwo" element={<SamplePageTwo />} />
+
             <Route
               path="/movies"
               element={
@@ -197,55 +208,13 @@ function App() {
               path="/movie/:id"
               element={<MovieDetailsPage movielist={movielist} />}
             />
+            <Route
+              path="/addmovie"
+              element={
+                <AddMovie movielist={movielist} setmovielist={setmovielist} />
+              }
+            />
           </Routes>
-
-          {/* <div className="inputcon">
-        <TextField
-          onChange={(ele) => setname(ele.target.value)}
-          placeholder="name"
-          className="infill"
-          type="text"
-          label="Name"
-          variant="outlined"
-        />
-        <TextField
-          onChange={(ele) => setposter(ele.target.value)}
-          placeholder="Poster"
-          className="infill"
-          type="text"
-          label="Poster"
-          variant="outlined"
-        />
-        <TextField
-          onChange={(ele) => setrating(ele.target.value)}
-          placeholder="Rating"
-          className="infill"
-          type="text"
-          label="Rating"
-          variant="outlined"
-        />
-        <TextField
-          onChange={(ele) => setsummary(ele.target.value)}
-          placeholder="Summary"
-          className="infill"
-          type="text"
-          label="summary"
-          variant="outlined"
-        />
-
-        <Button
-          onClick={() => setmovielist([...moveilist, emoviedata])}
-          variant="contained"
-        >
-          ADD
-        </Button>
-      </div> */}
-
-          {/* <div className="mlistcon">
-        {moveilist.map((moviedata, id) => (
-          <MovieContainer key={id} moviedata={moviedata} index={id} />
-        ))}
-      </div> */}
         </div>
         <CssBaseline />
       </Paper>
@@ -291,35 +260,5 @@ function Home() {
     </div>
   );
 }
-
-function SamplePageOne() {
-  return (
-    <div>
-      <h1>Welcome to Sample Page 1</h1>
-    </div>
-  );
-}
-
-function SamplePageTwo() {
-  return (
-    <div>
-      <h1>Welcome to Sample Page 2</h1>
-    </div>
-  );
-}
-
-/* function Msg({ name, img, id }) {
-  const [count, setCount] = useState(0);
-  return (
-    <div className="back">
-      <div key={id}>
-        {id}
-        <img className="imgs" src={img} alt={name} />
-        <div className="name">{name}</div>
-        <button onClick={() => setCount(count + 1)}> like wow {count} </button>
-      </div>
-    </div>
-  );
-} */
 
 export default App;
