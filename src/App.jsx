@@ -16,6 +16,7 @@ import Toolbar from "@mui/material/Toolbar";
 import "./App.css";
 import { MovieContainer } from "./MovieContainer";
 import { NotfoundPage } from "./NotfoundPage";
+import { MovieDetailsPage } from "./MovieDetailsPage";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Paper from "@mui/material/Paper";
@@ -219,37 +220,6 @@ function App() {
         <CssBaseline />
       </Paper>
     </ThemeProvider>
-  );
-}
-
-function MovieDetailsPage({ movielist }) {
-  const id = useParams();
-  const moviedata = movielist[id.id];
-  const navigate = useNavigate();
-
-  return (
-    <div className="movie-detail-page">
-      <iframe
-        height="500px"
-        width="100%"
-        src={moviedata.trailer}
-        title={moviedata.name}
-      />
-      <div className="movie-detail-spc">
-        <Typography>{moviedata.name}</Typography>
-        <Typography>{moviedata.rating}</Typography>
-      </div>
-      <div className="movie-detail-page-summary">{moviedata.summary}</div>
-      <div>
-        <Button
-          onClick={() => navigate(-1)}
-          startIcon={<KeyboardBackspaceIcon />}
-          variant="contained"
-        >
-          Back
-        </Button>
-      </div>
-    </div>
   );
 }
 

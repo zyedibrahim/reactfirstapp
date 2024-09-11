@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Badge from "@mui/material/Badge";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -14,8 +14,31 @@ import { useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
-export function MovieContainer({ movielist, setmovielist }) {
-  // let [moviedatas, setmoviedatas] = useState(moveilist);
+export function MovieContainer() {
+  let [movielist, setmovielist] = useState([]);
+
+  async function getmoviedata() {
+    const url = "https://66dfb5e92fb67ac16f26eb73.mockapi.io/movies/movies";
+    try {
+      const response = await fetch(url); // Fetches data from the API
+      const data = await response.json(); // Converts the response to JSON format
+      setmovielist(data);
+      console.log("data hre", data);
+    } catch (err) {
+      console.log("ree", err); // Logs any error that occurs during the fetch
+    }
+  }
+  useEffect(() => {
+    getmoviedata();
+  }, []);
+
+  const deletefuncion = async (id) => {
+    console.log(id, "delete id call");
+    const url = `https://66dfb5e92fb67ac16f26eb73.mockapi.io/movies/movies/${id}`;
+    const deletedone = await fetch(url, { method: "DELETE" });
+    console.log(deletedone, "done is donen");
+    getmoviedata();
+  };
 
   return (
     <div>
@@ -25,7 +48,12 @@ export function MovieContainer({ movielist, setmovielist }) {
         ))} */}
 
         {movielist.map((moviedata, id) => (
-          <MovieEach key={id} moviedata={moviedata} index={id} />
+          <MovieEach
+            key={id}
+            moviedata={moviedata}
+            index={id}
+            deletefuncion={() => deletefuncion(moviedata.id)}
+          />
         ))}
       </div>
     </div>
@@ -98,7 +126,7 @@ export function MovieContainer({ movielist, setmovielist }) {
 //     </Card>
 //   );
 // }
-export function MovieEach({ id, moviedata, index }) {
+export function MovieEach({ id, moviedata, index, deletefuncion }) {
   var [countlike, setcountlike] = useState(0);
   var [countdislike, setcountdislike] = useState(0);
   const navigate = useNavigate();
@@ -125,7 +153,7 @@ export function MovieEach({ id, moviedata, index }) {
           <Button onClick={() => setshow(!show)}>
             {show ? <KeyboardArrowUpIcon /> : <ExpandMoreIcon />}
           </Button>
-          <Button onClick={() => navigate(`/movie/${index}`)}>
+          <Button onClick={() => navigate(`/movie/${moviedata.id}`)}>
             <InfoIcon />
           </Button>
         </div>
@@ -157,7 +185,7 @@ export function MovieEach({ id, moviedata, index }) {
             👎
           </Badge>
         </Button>
-        <Button variant="text">
+        <Button onClick={deletefuncion} variant="text">
           <DeleteIcon />
         </Button>
         <Button>
