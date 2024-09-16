@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
 
@@ -12,21 +12,41 @@ const formvalidationschema = yup.object({
   summary: yup.string().required("Summary is required"),
 });
 
-export function AddMovie() {
+export function EditmoviePage() {
   const navigate = useNavigate();
-  const formik = useFormik({
-    initialValues: { name: "", poster: "", rating: "", summary: "" },
-    validationSchema: formvalidationschema,
-    onSubmit: (value) => {
-      AddMoviefuctions(value);
-    },
-  });
+  const [moviedata, setmoviedata] = useState(null);
+  const { id } = useParams();
 
-  // const navigate = useNavigate();
-  let AddMoviefuctions = async (emoviedata) => {
-    const url = "https://66dfb5e92fb67ac16f26eb73.mockapi.io/movies/movies";
+  async function getmoviedata() {
+    const url = `https://66dfb5e92fb67ac16f26eb73.mockapi.io/movies/movies/${id}`;
+
+    const response = await fetch(url); // Fetches data from the API
+    const data = await response.json(); // Converts the response to JSON format
+    setmoviedata(data);
+    console.log(moviedata, "moviedata");
+  }
+
+  useEffect(() => {
+    getmoviedata();
+  }, []);
+
+  return (
+    <div>
+      {moviedata ? (
+        <EditinputForm moviedata={moviedata} />
+      ) : (
+        <h1>Loading...</h1>
+      )}
+    </div>
+  );
+}
+
+function EditinputForm({ moviedata }) {
+  const navigate = useNavigate();
+  let EditMoviefuctions = async (emoviedata) => {
+    const url = `https://66dfb5e92fb67ac16f26eb73.mockapi.io/movies/movies/${moviedata.id}`;
     const response = await fetch(url, {
-      method: "POST",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
@@ -36,6 +56,18 @@ export function AddMovie() {
     navigate("/movies");
   };
 
+  const formik = useFormik({
+    initialValues: {
+      name: moviedata.name,
+      poster: moviedata.poster,
+      rating: moviedata.rating,
+      summary: moviedata.summary,
+    },
+    validationSchema: formvalidationschema,
+    onSubmit: (value) => {
+      EditMoviefuctions(value);
+    },
+  });
   return (
     <form onSubmit={formik.handleSubmit}>
       <div className="inputcon-center">
@@ -100,7 +132,7 @@ export function AddMovie() {
             : null}
 
           <Button type="submit" variant="contained">
-            ADD
+            Save
           </Button>
         </div>
       </div>

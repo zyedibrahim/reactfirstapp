@@ -23,6 +23,7 @@ import Paper from "@mui/material/Paper";
 import BrightnessHighIcon from "@mui/icons-material/BrightnessHigh";
 import BrightnessLowIcon from "@mui/icons-material/BrightnessLow";
 import { AddMovie } from "./AddMovie";
+import { EditmoviePage } from "./EditmoviePage";
 function App() {
   let [dark, Setdark] = useState("light");
   const darkTheme = createTheme({
@@ -187,20 +188,12 @@ function App() {
           {/* navigaton barf */}
 
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<MovieContainer />} />
 
-            <Route path="/home" element={<Home />} />
+            <Route path="/home" element={<MovieContainer />} />
             <Route path="*" element={<NotfoundPage />} />
 
-            <Route
-              path="/movies"
-              element={
-                <MovieContainer
-                  movielist={movielist}
-                  setmovielist={setmovielist}
-                />
-              }
-            />
+            <Route path="/movies" element={<MovieContainer />} />
             <Route
               path="/flims"
               element={<Navigate replace to={"/movies"} />}
@@ -209,6 +202,7 @@ function App() {
               path="/movie/:id"
               element={<MovieDetailsPage movielist={movielist} />}
             />
+            <Route path="/movie/edit/:id" element={<EditmoviePage />} />
             <Route
               path="/addmovie"
               element={
@@ -220,14 +214,6 @@ function App() {
         <CssBaseline />
       </Paper>
     </ThemeProvider>
-  );
-}
-
-function Home() {
-  return (
-    <div>
-      <h1>Welcome to Home Page</h1>
-    </div>
   );
 }
 

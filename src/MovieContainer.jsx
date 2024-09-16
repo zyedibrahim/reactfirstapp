@@ -23,7 +23,6 @@ export function MovieContainer() {
       const response = await fetch(url); // Fetches data from the API
       const data = await response.json(); // Converts the response to JSON format
       setmovielist(data);
-      console.log("data hre", data);
     } catch (err) {
       console.log("ree", err); // Logs any error that occurs during the fetch
     }
@@ -188,7 +187,7 @@ export function MovieEach({ id, moviedata, index, deletefuncion }) {
         <Button onClick={deletefuncion} variant="text">
           <DeleteIcon />
         </Button>
-        <Button>
+        <Button onClick={() => navigate(`/movie/edit/${moviedata.id}`)}>
           <EditIcon />
         </Button>
       </CardActions>
